@@ -10,6 +10,7 @@ module itss.convenience {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires annotations;
 
     opens itss.convenience to javafx.fxml;
     exports itss.convenience;

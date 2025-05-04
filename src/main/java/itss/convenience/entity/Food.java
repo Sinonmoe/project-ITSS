@@ -1,46 +1,85 @@
+// Food.java
 package itss.convenience.entity;
 
 import itss.convenience.UnitType;
-
-import java.time.LocalDateTime;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Food {
     private final String name;
     private final UnitType unitType;
-    private double quantity;
-    private final LocalDateTime expirationDate;
-    public Food(String name, UnitType unitType, float quantity, LocalDateTime expirationDate) {
-        this.name = name.toLowerCase(Locale.forLanguageTag("vi"));
+    private final Map<LocalDate, Double> expirationMap = new TreeMap<>();
+
+    public Food(String name, UnitType unitType, double quantity, LocalDate expirationDate) {
+        this.name = name.toLowerCase(Locale.forLanguageTag("vi")).trim();
         this.unitType = unitType;
-        this.quantity = quantity;
-        this.expirationDate = expirationDate;
+        if (isValidExpiration(expirationDate)) {
+            expirationMap.put(expirationDate, adjustQuantity(quantity));
+        }
     }
+    public Food(String name, UnitType unitType, double quantity) {
+        this(name, unitType, quantity, LocalDate.MAX);
+    }
+    public Food(String name, UnitType unitType) {
+        this.name = name.toLowerCase(Locale.forLanguageTag("vi")).trim();
+        this.unitType = unitType;
+    }
+
+
+
+    private boolean isValidExpiration(LocalDate date) {
+        return date.isAfter(LocalDate.now());
+    }
+
+    private double adjustQuantity(double quantity) {
+        return (unitType == UnitType.KG || unitType == UnitType.L) ? quantity : Math.floor(quantity);
+    }
+
     public String getName() {
         return name;
     }
+
     public UnitType getUnitType() {
         return unitType;
     }
-    public double getQuantity() {
-        if (unitType == UnitType.KG || unitType == UnitType.L) {
-            return quantity;
-        } else {
-            return Math.floor(quantity);
+
+    public double getTotalQuantity() {
+        return expirationMap.values().stream().mapToDouble(Double::doubleValue).sum();
+    }
+
+    public void addQuantity(LocalDate date, double quantity) {
+        if (!isValidExpiration(date)) return;
+        double adjusted = adjustQuantity(quantity);
+        expirationMap.merge(date, adjusted, Double::sum);
+    }
+
+    public void subtractQuantity(double quantityToRemove) {
+        quantityToRemove = adjustQuantity(quantityToRemove);
+        Iterator<Map.Entry<LocalDate, Double>> iterator = expirationMap.entrySet().iterator();
+        while (iterator.hasNext() && quantityToRemove > 0) {
+            Map.Entry<LocalDate, Double> entry = iterator.next();
+            double currentQty = entry.getValue();
+            if (quantityToRemove >= currentQty) {
+                quantityToRemove -= currentQty;
+                iterator.remove();
+            } else {
+                entry.setValue(currentQty - quantityToRemove);
+                quantityToRemove = 0;
+            }
         }
     }
-    public void setQuantity(double quantity) {
-        if (unitType == UnitType.KG || unitType == UnitType.L) {
-            this.quantity = quantity;
-        } else {
-            this.quantity = Math.floor(quantity);
-        }
-    }
-    public LocalDateTime getExpirationDate() {
-        return expirationDate;
-    }
+
     public boolean isExpired() {
-        return expirationDate.isBefore(LocalDateTime.now());
+        return expirationMap.keySet().stream().allMatch(date -> date.isBefore(LocalDate.now()));
+    }
+
+    public LocalDate getClosestExpirationDate() {
+        return expirationMap.keySet().stream().filter(d -> !d.isBefore(LocalDate.now())).findFirst().orElse(null);
+    }
+
+    public Map<LocalDate, Double> getExpirationMap() {
+        return expirationMap;
     }
 
     @Override
@@ -48,7 +87,20 @@ public class Food {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Food food = (Food) obj;
-        return name.equals(food.name) &&
-                unitType == food.unitType;
+        return name.equals(food.name) && unitType == food.unitType;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, unitType);
+    }
+
+    @Override
+    public String toString() {
+        return "Tên: " + name +
+                ", Đơn vị: " + unitType.getUnit() +
+                ", Số lượng: " + getTotalQuantity() +
+                ", Ngày hết hạn: " + expirationMap.keySet().stream()
+                .map(LocalDate::toString)
+                .collect(Collectors.joining(", "));
     }
 }
