@@ -9,6 +9,9 @@ import java.util.*;
 public class Fridge {
     private final List<Food> foodList = new ArrayList<>();
 
+    public Fridge() {
+        // Constructor rỗng
+    }
     public Fridge(@NotNull Food... foods) {
         Map<String, Food> mergedFoods = new HashMap<>();
 
@@ -35,9 +38,6 @@ public class Fridge {
 
         foodList.addAll(mergedFoods.values());
     }
-
-
-
 
     public List<Food> getEdibleFoods() {
         List<Food> result = new ArrayList<>();

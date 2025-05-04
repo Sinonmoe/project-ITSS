@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FridgeController {
-    private final Fridge fridge = new Fridge(new Food("mồng tơi", UnitType.KG, 1, LocalDate.of(2023, 10, 1)),
+    private final Fridge fridge = new Fridge(
+            new Food("mồng tơi", UnitType.KG, 1.1, LocalDate.of(2026, 10, 1)),
             new Food("thịt gà", UnitType.KG, 1, LocalDate.of(2025, 10, 1)),
             new Food("thịt bò", UnitType.KG, 1, LocalDate.of(2025, 10, 1)),
             new Food("thịt heo", UnitType.KG, 1, LocalDate.of(2025, 10, 1)),
@@ -32,7 +33,7 @@ public class FridgeController {
             new Food("thịt gà", UnitType.KG, 0.1),
             new Food("tía tô", UnitType.KG, 1, LocalDate.of(2025, 10, 1))
     ), new String[]{
-            "Bước 1: Rửa sạch mồng tơi và thịt gà.",
+            "Bước 1: Rửa sạch mồng tơi, tía tô và thịt gà.",
             "Bước 2: Nấu nước sôi và cho thịt gà vào nấu chín.",
             "Bước 3: Thêm mồng tơi vào nấu cùng."
     }, 30, 200);
