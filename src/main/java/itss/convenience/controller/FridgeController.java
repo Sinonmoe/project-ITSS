@@ -66,6 +66,10 @@ public class FridgeController {
         for (Dish dish : fridgeController.hintDishes()) {
             System.out.println(dish.getName());
         }
+        System.out.println("Foods in fridge:");
+        for (Food food : fridgeController.fridge.getEdibleFoods()) {
+            System.out.println(food);
+        }
     }
 
     public ArrayList<Dish> hintDishes() {

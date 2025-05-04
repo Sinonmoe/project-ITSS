@@ -10,30 +10,33 @@ public class Fridge {
     private final List<Food> foodList = new ArrayList<>();
 
     public Fridge(@NotNull Food... foods) {
-        Map<Food, Food> mergedFoods = new HashMap<>();
+        Map<String, Food> mergedFoods = new HashMap<>();
 
         for (Food food : foods) {
             if (food == null) continue;
 
-            Food key = new Food(food.getName(), food.getUnitType(), 0); // để dùng làm khóa
-            Food existing = mergedFoods.get(key);
+            String key = food.getName() + "_" + food.getUnitType();
+            Food merged = mergedFoods.get(key);
 
-            if (existing == null) {
-                // Tạo một bản sao để tránh thay đổi food gốc bên ngoài
-                Food copy = new Food(food.getName(), food.getUnitType(), 0);
+            if (merged == null) {
+                // Tạo một bản sao thực phẩm mới và sao chép toàn bộ expirationMap
+                Food copy = new Food(food.getName(), food.getUnitType());
                 for (Map.Entry<LocalDate, Double> entry : food.getExpirationMap().entrySet()) {
                     copy.addQuantity(entry.getKey(), entry.getValue());
                 }
                 mergedFoods.put(key, copy);
             } else {
+                // Nếu đã tồn tại thực phẩm cùng loại, cộng dồn theo từng ngày
                 for (Map.Entry<LocalDate, Double> entry : food.getExpirationMap().entrySet()) {
-                    existing.addQuantity(entry.getKey(), entry.getValue());
+                    merged.addQuantity(entry.getKey(), entry.getValue());
                 }
             }
         }
 
         foodList.addAll(mergedFoods.values());
     }
+
+
 
 
     public List<Food> getEdibleFoods() {

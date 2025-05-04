@@ -12,7 +12,7 @@ public class Food {
     private final Map<LocalDate, Double> expirationMap = new TreeMap<>();
 
     public Food(String name, UnitType unitType, double quantity, LocalDate expirationDate) {
-        this.name = name.toLowerCase(Locale.forLanguageTag("vi"));
+        this.name = name.toLowerCase(Locale.forLanguageTag("vi")).trim();
         this.unitType = unitType;
         if (isValidExpiration(expirationDate)) {
             expirationMap.put(expirationDate, adjustQuantity(quantity));
@@ -21,6 +21,11 @@ public class Food {
     public Food(String name, UnitType unitType, double quantity) {
         this(name, unitType, quantity, LocalDate.MAX);
     }
+    public Food(String name, UnitType unitType) {
+        this.name = name.toLowerCase(Locale.forLanguageTag("vi")).trim();
+        this.unitType = unitType;
+    }
+
 
 
     private boolean isValidExpiration(LocalDate date) {
@@ -84,9 +89,18 @@ public class Food {
         Food food = (Food) obj;
         return name.equals(food.name) && unitType == food.unitType;
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, unitType);
+    }
 
     @Override
     public String toString() {
-        return name + " (" + unitType + "): " + expirationMap;
+        return "Tên: " + name +
+                ", Đơn vị: " + unitType.getUnit() +
+                ", Số lượng: " + getTotalQuantity() +
+                ", Ngày hết hạn: " + expirationMap.keySet().stream()
+                .map(LocalDate::toString)
+                .collect(Collectors.joining(", "));
     }
 }
