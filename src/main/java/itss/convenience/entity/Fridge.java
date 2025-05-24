@@ -1,77 +1,47 @@
-// Fridge.java
 package itss.convenience.entity;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Fridge {
-    private final List<Food> foodList = new ArrayList<>();
+    private final int id;
 
-    public Fridge() {
-        // Constructor rỗng
-    }
-    public Fridge(@NotNull Food... foods) {
-        Map<String, Food> mergedFoods = new HashMap<>();
+    private final ArrayList<Food> foodList;
 
-        for (Food food : foods) {
-            if (food == null) continue;
-
-            String key = food.getName() + "_" + food.getUnitType();
-            Food merged = mergedFoods.get(key);
-
-            if (merged == null) {
-                // Tạo một bản sao thực phẩm mới và sao chép toàn bộ expirationMap
-                Food copy = new Food(food.getName(), food.getUnitType());
-                for (Map.Entry<LocalDate, Double> entry : food.getExpirationMap().entrySet()) {
-                    copy.addQuantity(entry.getKey(), entry.getValue());
-                }
-                mergedFoods.put(key, copy);
-            } else {
-                // Nếu đã tồn tại thực phẩm cùng loại, cộng dồn theo từng ngày
-                for (Map.Entry<LocalDate, Double> entry : food.getExpirationMap().entrySet()) {
-                    merged.addQuantity(entry.getKey(), entry.getValue());
-                }
-            }
-        }
-
-        foodList.addAll(mergedFoods.values());
+    public Fridge(int id, Food... foods) {
+        this.id = id;
+        this.foodList = new ArrayList<>();
+        this.foodList.addAll(Arrays.asList(foods));
     }
 
-    public List<Food> getEdibleFoods() {
-        List<Food> result = new ArrayList<>();
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Food> getFoodList() {
+        return foodList;
+    }
+
+    public ArrayList<Food> getEdibleFoods() {
+        ArrayList<Food> edibleFoods = new ArrayList<>();
         for (Food food : foodList) {
-            if (!food.isExpired()) {
-                result.add(food);
-            }
-        }
-        return result;
-    }
-
-    private void updateFoods(@NotNull List<Food> foods, boolean plus) {
-        for (Food food : foods) {
-            Optional<Food> existing = foodList.stream()
-                    .filter(f -> f.equals(food))
-                    .findFirst();
-            if (existing.isPresent()) {
-                Food existingFood = existing.get();
-                if (plus) {
-                    for (Map.Entry<LocalDate, Double> entry : food.getExpirationMap().entrySet()) {
-                        existingFood.addQuantity(entry.getKey(), entry.getValue());
+            if (edibleFoods.isEmpty()) {
+                edibleFoods.add(food);
+            } else {
+                boolean isFoodExist = false;
+                for (Food edibleFood : edibleFoods) {
+                    if (food.equals(edibleFood)) {
+                        isFoodExist = true;
+                        double newQuantity = food.getQuantity() + edibleFood.getQuantity();
+                        edibleFood.setQuantity(newQuantity);
+                        break;
                     }
-                } else {
-                    existingFood.subtractQuantity(food.getTotalQuantity());
                 }
-            } else if (plus) {
-                foodList.add(food);
+                if (!isFoodExist) {
+                    edibleFoods.add(food);
+                }
             }
         }
-    }
-    public void addFood(@NotNull List<Food> foods) {
-        updateFoods(foods, true);
-    }
-    public void removeFood(@NotNull List<Food> foods) {
-        updateFoods(foods, false);
+        return edibleFoods;
     }
 }
