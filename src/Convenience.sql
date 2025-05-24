@@ -1,3 +1,4 @@
+DROP DATABASE Convience;
 CREATE database IF NOT EXISTS convenience;
 USE convenience;
 
@@ -8,6 +9,7 @@ CREATE TABLE fridge (
 CREATE TABLE dish (
   dishId INT AUTO_INCREMENT PRIMARY KEY,
   dishName VARCHAR(100) DEFAULT NULL,
+  timeToEat ENUM('Sáng', 'Trưa', 'Tối') DEFAULT NULL,
   instruction TEXT DEFAULT NULL
 );
 
@@ -23,6 +25,18 @@ CREATE TABLE User (
   FOREIGN KEY (groupId) REFERENCES UserGroup(groupId)
 );
 
+ALTER TABLE User
+ADD COLUMN role ENUM('Homemaker', 'Member', 'Admin') DEFAULT 'Member';
+
+-- The following commented-out code is for creating the User table with a role column.
+-- CREATE TABLE User (
+--   userId INT AUTO_INCREMENT PRIMARY KEY,
+--   username VARCHAR(100) DEFAULT NULL,
+--   groupId INT DEFAULT NULL,
+--   role ENUM('Homemaker', 'Member', 'Admin') DEFAULT 'Member',
+--   FOREIGN KEY (groupId) REFERENCES UserGroup(groupId)
+-- );
+
 CREATE TABLE shoppingList (
   shoppingListId INT AUTO_INCREMENT PRIMARY KEY,
   buyDate DATE DEFAULT NULL,
@@ -32,25 +46,41 @@ CREATE TABLE shoppingList (
   FOREIGN KEY (userId) REFERENCES User(userId)
 );
 
+CREATE table foodType(
+  foodTypeId INT AUTO_INCREMENT PRIMARY KEY,
+  foodTypeName VARCHAR(30) DEFAULT NULL
+  foodTypeUnit VARCHAR(10) DEFAULT NULL
+);
+
 CREATE TABLE food (
   foodId INT AUTO_INCREMENT PRIMARY KEY,
-  foodName VARCHAR(100) DEFAULT NULL,
+  foodTypeId INT DEFAULT NULL,
   quantity DECIMAL(10, 2) DEFAULT NULL,
-  unitType VARCHAR(50) DEFAULT NULL,
   expirationDate DATE DEFAULT NULL,
   fridgeId INT DEFAULT NULL,
-  shoppingListId INT DEFAULT NULL,
   FOREIGN KEY (fridgeId) REFERENCES fridge(fridgeId),
-  FOREIGN KEY (shoppingListId) REFERENCES shoppingList(shoppingListId)
+  FOREIGN KEY (foodTypeId) REFERENCES foodType(foodTypeId)
 );
 
 CREATE TABLE dish_use_food (
   dishId INT NOT NULL,
-  foodName VARCHAR(100) NOT NULL,
+  foodTypeId INT NOT NULL,
   quantity DECIMAL(10, 2) DEFAULT NULL,
-  PRIMARY KEY (dishId, foodName),
-  FOREIGN KEY (dishId) REFERENCES dish(dishId)
+  PRIMARY KEY (dishId, foodTypeId),
+  FOREIGN KEY (dishId) REFERENCES dish(dishId),
+  FOREIGN KEY (foodTypeId) REFERENCES foodType(foodTypeId)
 );
+CREATE table shoppingItem(
+  shoppingItemId INT AUTO_INCREMENT PRIMARY KEY,
+  foodTypeId INT DEFAULT NULL,
+  quantity DECIMAL(10, 2) DEFAULT NULL,
+  shoppingListId INT DEFAULT NULL,
+  isPurchased BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (shoppingListId) REFERENCES shoppingList(shoppingListId),
+  FOREIGN KEY (foodTypeId) REFERENCES foodType(foodTypeId)
+);
+
+
 
 DELIMITER //
 
@@ -89,90 +119,90 @@ END;
 DELIMITER ;
 
 
--- Retrieve all food items in the fridge
-SELECT f.foodName, f.quantity, f.unitType, f.expirationDate 
-FROM food f WHERE fridgeId = 1 ORDER BY expirationDate;
+-- -- Retrieve all food items in the fridge
+-- SELECT f.foodName, f.quantity, f.unitType, f.expirationDate 
+-- FROM food f WHERE fridgeId = 1 ORDER BY expirationDate;
 
--- Retrieve all dishes 
-SELECT 
-  d.dishName, 
-  f.foodName, 
-  duf.quantity
-FROM 
-  dish d
-JOIN 
-  dish_use_food duf ON d.dishId = duf.dishId;
+-- -- Retrieve all dishes 
+-- SELECT 
+--   d.dishName, 
+--   f.foodName, 
+--   duf.quantity
+-- FROM 
+--   dish d
+-- JOIN 
+--   dish_use_food duf ON d.dishId = duf.dishId;
 
--- Retrieve all food items used in a specific dish
-SELECT 
-  d.dishName, 
-  f.foodName, 
-  duf.quantity
-FROM 
-  dish d 
-JOIN
-    dish_use_food duf ON d.dishId = duf.dishId
-WHERE 
-  d.dishName = 'Pasta';
+-- -- Retrieve all food items used in a specific dish
+-- SELECT 
+--   d.dishName, 
+--   f.foodName, 
+--   duf.quantity
+-- FROM 
+--   dish d 
+-- JOIN
+--     dish_use_food duf ON d.dishId = duf.dishId
+-- WHERE 
+--   d.dishName = 'Pasta';
 
--- Insert a new fridge
-INSERT INTO fridge VALUES ();
-SELECT * FROM fridge;
+-- -- Insert a new fridge
+-- INSERT INTO fridge VALUES ();
+-- SELECT * FROM fridge;
 
--- Insert a new dish
-INSERT INTO dish (dishName, instruction) 
-VALUES ('Pasta', 'Boil water, add pasta, cook for 10 minutes.');
-INSERT INTO dish (dishName, instruction)
-VALUES ('KFC', 'Fry chicken, add spices, serve hot.');
-SELECT d.dishName FROM dish d;
+-- -- Insert a new dish
+-- INSERT INTO dish (dishName, instruction) 
+-- VALUES ('Pasta', 'Boil water, add pasta, cook for 10 minutes.');
+-- INSERT INTO dish (dishName, instruction)
+-- VALUES ('KFC', 'Fry chicken, add spices, serve hot.');
+-- SELECT d.dishName FROM dish d;
 
--- Insert a new user group
-INSERT INTO UserGroup (groupName) VALUES ('ITSS');
-SELECT * FROM UserGroup;
+-- -- Insert a new user group
+-- INSERT INTO UserGroup (groupName) VALUES ('ITSS');
+-- SELECT * FROM UserGroup;
 
--- Insert a new user
-INSERT INTO User (username, groupId) VALUES ('Meikou', 1);
-SELECT * FROM User;
+-- -- Insert a new user
+-- INSERT INTO User (username, groupId) VALUES ('Meikou', 1);
+-- SELECT * FROM User;
 
--- Insert a new shopping list
-INSERT INTO shoppingList (buyDate, groupId, userId) VALUES ('2025-10-05', 1, 1);
-SELECT * FROM shoppingList;
-UPDATE shoppingList SET buyDate = '2025-5-10' WHERE buyDate = '2025-10-05';
+-- -- Insert a new shopping list
+-- INSERT INTO shoppingList (buyDate, groupId, userId) VALUES ('2025-10-05', 1, 1);
+-- SELECT * FROM shoppingList;
+-- UPDATE shoppingList SET buyDate = '2025-5-10' WHERE buyDate = '2025-10-05';
 
--- Insert foods item
-INSERT INTO food (foodName, quantity, unitType, expirationDate) 
-VALUES ('Tomato', 5, 'kg', '2025-6-10');
-INSERT INTO food (foodName, quantity, unitType, expirationDate)
-VALUES ('Pasta', 2, 'kg', '2025-6-10');
-INSERT INTO food (foodName, quantity, unitType, expirationDate)
-VALUES ('Chicken', 1, 'kg', '2025-5-10');
-Delete FROM food where foodName = 'Tomato';
-SELECT * FROM food;
+-- -- Insert foods item
+-- INSERT INTO food (foodName, quantity, unitType, expirationDate) 
+-- VALUES ('Tomato', 5, 'kg', '2025-6-10');
+-- INSERT INTO food (foodName, quantity, unitType, expirationDate)
+-- VALUES ('Pasta', 2, 'kg', '2025-6-10');
+-- INSERT INTO food (foodName, quantity, unitType, expirationDate)
+-- VALUES ('Chicken', 1, 'kg', '2025-5-10');
+-- Delete FROM food where foodName = 'Tomato';
+-- SELECT * FROM food;
 
--- Insert food used in a dish
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (1, 'Pasta', 0.2);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (1, 'Chicken', 0.3);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (1, 'Tomato', 0.1);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (2, 'Chicken', 0.5);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (2, 'Pepper', 0.05);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (2, 'Salt', 0.02);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (2, 'Oil', 0.1);
-INSERT INTO dish_use_food (dishId, foodName, quantity)
-VALUES (2, 'Onion', 0.05);
+-- -- Insert food used in a dish
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (1, 'Pasta', 0.2);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (1, 'Chicken', 0.3);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (1, 'Tomato', 0.1);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (2, 'Chicken', 0.5);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (2, 'Pepper', 0.05);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (2, 'Salt', 0.02);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (2, 'Oil', 0.1);
+-- INSERT INTO dish_use_food (dishId, foodName, quantity)
+-- VALUES (2, 'Onion', 0.05);
 
--- Retrieve all food items used in a specific dish
-SELECT 
-  d.dishName, 
-  duf.foodName, 
-  duf.quantity
-FROM 
-  dish d JOIN dish_use_food duf ON d.dishId = duf.dishId
-WHERE
-  d.dishName = 'KFC';
+-- -- Retrieve all food items used in a specific dish
+-- SELECT 
+--   d.dishName, 
+--   duf.foodName, 
+--   duf.quantity
+-- FROM 
+--   dish d JOIN dish_use_food duf ON d.dishId = duf.dishId
+-- WHERE
+--   d.dishName = 'KFC';

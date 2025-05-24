@@ -36,7 +36,7 @@ public class Food {
     }
 
     public double getQuantity() {
-        if (unitType == UnitType.KG || unitType == UnitType.L) {
+        if (unitType == UnitType.kg || unitType == UnitType.l) {
             return quantity;
         } else {
             return Math.floor(quantity);
@@ -44,7 +44,7 @@ public class Food {
     }
 
     public void setQuantity(double quantity) {
-        if (unitType == UnitType.KG || unitType == UnitType.L) {
+        if (unitType == UnitType.kg || unitType == UnitType.l) {
             this.quantity = quantity;
         } else {
             this.quantity = Math.floor(quantity);

@@ -1,9 +1,9 @@
 package itss.convenience;
 
 public enum UnitType {
-    KG("kg"),
-    L("l"),
-    PCS("pcs");
+    kg("kg"),
+    l("l"),
+    pcs("pcs");
 
     private final String unit;
 
@@ -12,6 +12,10 @@ public enum UnitType {
     }
 
     public String getUnit() {
+        return unit;
+    }
+    @Override
+    public String toString() {
         return unit;
     }
 }

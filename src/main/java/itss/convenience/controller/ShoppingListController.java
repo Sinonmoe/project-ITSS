@@ -5,7 +5,6 @@ import itss.convenience.entity.Fridge;
 import itss.convenience.entity.ShoppingList;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class ShoppingListController {
     private final ShoppingList shoppingList;
@@ -56,9 +55,9 @@ public class ShoppingListController {
 
     public static void main(String[] args) {
         // Tạo một số món ăn
-        Food rice = new Food("Gạo", itss.convenience.UnitType.KG, 2, LocalDate.of(2025, 12, 31));
-        Food milk = new Food("Sữa", itss.convenience.UnitType.L, 1, LocalDate.of(2024, 5, 30));
-        Food apple = new Food("Táo", itss.convenience.UnitType.KG, 5, LocalDate.of(2024, 6, 15));
+        Food rice = new Food("Gạo", itss.convenience.UnitType.kg, 2, LocalDate.of(2025, 12, 31));
+        Food milk = new Food("Sữa", itss.convenience.UnitType.l, 1, LocalDate.of(2024, 5, 30));
+        Food apple = new Food("Táo", itss.convenience.UnitType.kg, 5, LocalDate.of(2024, 6, 15));
 
         ShoppingList shoppingList = new ShoppingList(1, LocalDate.now());
         // Thêm món ăn vào danh sách
