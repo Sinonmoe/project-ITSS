@@ -4,11 +4,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Fridge {
+    private final int id;
+
     private final ArrayList<Food> foodList;
-    public Fridge(Food ...foods) {
-        foodList = new ArrayList<>();
-        foodList.addAll(Arrays.asList(foods));
+
+    public Fridge(int id, Food... foods) {
+        this.id = id;
+        this.foodList = new ArrayList<>();
+        this.foodList.addAll(Arrays.asList(foods));
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Food> getFoodList() {
+        return foodList;
+    }
+
     public ArrayList<Food> getEdibleFoods() {
         ArrayList<Food> edibleFoods = new ArrayList<>();
         for (Food food : foodList) {
