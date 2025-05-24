@@ -10,12 +10,21 @@ public class Food {
     private final UnitType unitType;
     private double quantity;
     private final LocalDate expirationDate;// localdate
+    private boolean isPurchased = false;
 
     public Food(String name, UnitType unitType, float quantity, LocalDate expirationDate) {
         this.name = name.toLowerCase(Locale.forLanguageTag("vi"));
         this.unitType = unitType;
         this.quantity = quantity;
         this.expirationDate = expirationDate;
+    }
+
+    public boolean isPurchased() {
+        return isPurchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        isPurchased = purchased;
     }
 
     public String getName() {
