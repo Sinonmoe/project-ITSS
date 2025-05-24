@@ -14,6 +14,11 @@ public class Fridge {
         this.foodList.addAll(Arrays.asList(foods));
     }
 
+    public Fridge(int id) {
+        this.id = id;
+        this.foodList = new ArrayList<>();
+    }
+
     public int getId() {
         return id;
     }
