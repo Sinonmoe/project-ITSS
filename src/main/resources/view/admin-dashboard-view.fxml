@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="itss.controller.AdminDashboardController"
+            stylesheets="@/styles/style.css"
+            prefHeight="600.0" prefWidth="1000.0">
+    <!-- Sidebar bên trái -->
+    <left>
+        <VBox spacing="20" alignment="TOP_CENTER" styleClass="sidebar">
+            <padding>
+                <Insets top="20" left="10" right="10" bottom="10"/>
+            </padding>
+
+            <ImageView fitWidth="50" preserveRatio="true">
+                <image>
+                    <Image url="@/images/logo.png"/>
+                </image>
+            </ImageView>
+            <Separator/>
+            <Button text="Thực phẩm" onAction="#showFoodPane" styleClass="nav-button"/>
+            <Separator/>
+            <Button text="Món ăn" onAction="#showDishPane" styleClass="nav-button"/>
+            <Separator/>
+            <Button text="Người dùng" onAction="#showUserPane" styleClass="nav-button"/>
+            <VBox fx:id="spacer" VBox.vgrow="ALWAYS"/>
+            <Button text="Đăng xuất"
+                    onAction="#handleLogout"
+                    styleClass="logout-button"/>
+        </VBox>
+    </left>
+    <!-- Khu vực nội dung trung tâm -->
+    <center>
+        <StackPane fx:id="contentPane">
+            <padding>
+                <Insets top="20" bottom="20" left="20" right="20"/>
+            </padding>
+            <!-- Danh sách loại thực phẩm -->
+            <ListView fx:id="foodListView"
+                      visible="false" managed="false"/>
+
+            <!-- Danh sách món ăn -->
+            <ListView fx:id="dishListView"
+                      visible="false" managed="false"/>
+
+            <!-- Danh sách người dùng -->
+            <ListView fx:id="userListView"
+                      visible="false" managed="false"/>
+
+        </StackPane>
+    </center>
+
+    <!-- Hàng nút Thêm / Sửa / Xoá -->
+    <bottom>
+        <HBox spacing="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" bottom="20" left="20" right="20"/>
+            </padding>
+            <Button text="Thêm" onAction="#handleAdd" styleClass="button"/>
+            <Button text="Sửa" onAction="#handleEdit" styleClass="button-light"/>
+            <Button text="Xoá" onAction="#handleDelete" styleClass="button"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="itss.controller.GroupSetupController"
+            stylesheets="@/styles/style.css"
+            prefHeight="500.0" prefWidth="700.0">
+
+    <VBox spacing="20" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          styleClass="group-setup-container">
+
+        <padding>
+            <Insets top="30.0" left="30.0" right="30.0" bottom="30.0"/>
+        </padding>
+
+        <!-- Tiêu đề -->
+        <Label text="Bạn muốn thực hiện gì?" styleClass="label-title"/>
+
+        <!-- Nút chọn chức năng -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Tham gia nhóm có sẵn"
+                    onAction="#showJoinGroup"
+                    styleClass="button"/>
+            <Button text="Tạo nhóm mới"
+                    onAction="#showCreateGroup"
+                    styleClass="button"/>
+        </HBox>
+
+        <!-- Vùng hiển thị nội dung động -->
+        <StackPane fx:id="contentPane">
+
+            <!-- VÙNG: Tham gia nhóm -->
+            <VBox fx:id="joinGroupPane" spacing="10" alignment="TOP_CENTER"
+                  visible="false" managed="false"
+                  styleClass="panel">
+
+                <Label text="Danh sách nhóm có sẵn:" styleClass="label-sub"/>
+                <ListView fx:id="groupListView"
+                          prefHeight="200" prefWidth="400"
+                          styleClass="list-view"/>
+                <Button text="Tham gia nhóm đã chọn"
+                        onAction="#handleJoinGroup"
+                        styleClass="button"/>
+            </VBox>
+
+            <!-- VÙNG: Tạo nhóm -->
+            <VBox fx:id="createGroupPane" spacing="10" alignment="TOP_CENTER"
+                  visible="false" managed="false"
+                  styleClass="panel">
+
+                <Label text="Nhập tên nhóm mới:" styleClass="label-sub"/>
+                <TextField fx:id="groupNameField"
+                           promptText="Tên nhóm mới"
+                           maxWidth="300"
+                           styleClass="text-field"/>
+                <Button text="Tạo nhóm"
+                        onAction="#handleCreateGroup"
+                        styleClass="button"/>
+            </VBox>
+
+        </StackPane>
+    </VBox>
+</AnchorPane>

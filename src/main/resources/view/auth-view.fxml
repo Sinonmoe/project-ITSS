@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="itss.controller.AuthController"
+            stylesheets="@/styles/style.css"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <VBox alignment="CENTER" spacing="15.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0"
+          styleClass="login-container">
+
+        <padding>
+            <Insets top="40.0" left="30.0" right="30.0" bottom="20.0"/>
+        </padding>
+
+        <!-- Logo -->
+        <ImageView fitWidth="120" preserveRatio="true">
+            <image>
+                <Image url="@/images/logo.png"/>
+            </image>
+        </ImageView>
+
+        <!-- Tiêu đề -->
+        <Label text="Đi chợ tiện lợi" styleClass="label-title"/>
+
+        <!-- StackPane chứa cả login và register -->
+        <StackPane fx:id="authStack" prefHeight="250" maxWidth="400">
+
+            <!-- Login form -->
+            <VBox fx:id="loginPane" spacing="10" alignment="CENTER">
+                <TextField fx:id="loginUsername"
+                           promptText="Nhập tên đăng nhập"
+                           styleClass="text-field" maxWidth="300.0"/>
+
+                <Label fx:id="loginMessage"
+                       styleClass="label-error"
+                       visible="false" managed="false"/>
+
+                <Button text="Đăng nhập"
+                        onAction="#handleLogin"
+                        styleClass="button"
+                        maxWidth="150.0"/>
+
+                <Hyperlink text="Bạn chưa có tài khoản? Đăng ký"
+                           onAction="#showRegisterPane"
+                           styleClass="hyperlink"/>
+            </VBox>
+
+            <!-- Register form -->
+            <VBox fx:id="registerPane" spacing="10" alignment="CENTER"
+                  visible="false" managed="false">
+
+                <TextField fx:id="registerUsername"
+                           promptText="Nhập tên đăng ký"
+                           styleClass="text-field" maxWidth="300.0"/>
+
+                <Label fx:id="registerMessage"
+                       styleClass="label-error"
+                       visible="false" managed="false"/>
+
+                <Button text="Đăng ký"
+                        onAction="#handleRegister"
+                        styleClass="button"
+                        maxWidth="150.0"/>
+
+                <Hyperlink text="Đã có tài khoản? Đăng nhập"
+                           onAction="#showLoginPane"
+                           styleClass="hyperlink"/>
+            </VBox>
+        </StackPane>
+    </VBox>
+</AnchorPane>

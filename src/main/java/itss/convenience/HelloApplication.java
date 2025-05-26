@@ -12,13 +12,13 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/auth-view.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
-            primaryStage.setTitle("Chung Cư Blue Moon");
+            primaryStage.setTitle("Convenience");
             primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(true);
             primaryStage.show();
         } catch (IOException e) {
             System.err.println("Lỗi khi tải giao diện: " + e.getMessage());
