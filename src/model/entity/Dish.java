@@ -6,13 +6,13 @@ public class Dish {
     private int id;
     private String name;
     private String description;
-    private ArrayList<FoodType> foodTypeList;
-
-    public Dish(int id, String name, String description, ArrayList<FoodType> foodTypeList) {
+    private ArrayList<Ingredient> ingredients;
+    public Dish(){}
+    public Dish(int id, String name, String description, ArrayList<Ingredient> ingredients) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.foodTypeList = foodTypeList;
+        this.ingredients = ingredients;
     }
 
     public int getId() {
@@ -38,12 +38,10 @@ public class Dish {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public ArrayList<FoodType> getFoodTypeList() {
-        return foodTypeList;
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
     }
-
-    public void setFoodTypeList(ArrayList<FoodType> foodTypeList) {
-        this.foodTypeList = foodTypeList;
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

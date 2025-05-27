@@ -5,31 +5,23 @@ import java.util.ArrayList;
 
 public class ShoppingList {
     private int id;
-    private int userGroupId;
     private LocalDate buyDate;
-    private ArrayList<ShoppingItem> shoppingItemList;
+    private ArrayList<Ingredient> ingredients;
 
-    public ShoppingList(int id, int userGroupId, LocalDate buyDate, ArrayList<ShoppingItem> shoppingItemList) {
+    public  ShoppingList(int id, LocalDate buyDate, ArrayList<Ingredient> ingredients) {
         this.id = id;
-        this.userGroupId = userGroupId;
         this.buyDate = buyDate;
-        this.shoppingItemList = shoppingItemList;
+        this.ingredients = ingredients;
     }
-
+    public ShoppingList() {
+        this.ingredients = new ArrayList<>();
+    }
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserGroupId() {
-        return userGroupId;
-    }
-
-    public void setUserGroupId(int userGroupId) {
-        this.userGroupId = userGroupId;
     }
 
     public LocalDate getBuyDate() {
@@ -39,13 +31,11 @@ public class ShoppingList {
     public void setBuyDate(LocalDate buyDate) {
         this.buyDate = buyDate;
     }
-
-    public ArrayList<ShoppingItem> getShoppingItemList() {
-        return shoppingItemList;
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
     }
-
-    public void setShoppingItemList(ArrayList<ShoppingItem> shoppingItemList) {
-        this.shoppingItemList = shoppingItemList;
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
     

@@ -5,17 +5,18 @@ import java.util.ArrayList;
 
 public class Meal {
     private int id;
-    private int userGroupId;
     private LocalDate date;
     private ArrayList<Dish> dishList;
     private MealType mealType;
 
-    public Meal(int id, int userGroupId, LocalDate date, ArrayList<Dish> dishList, MealType mealType) {
+    public Meal(int id, LocalDate date, ArrayList<Dish> dishList, MealType mealType) {
         this.id = id;
-        this.userGroupId = userGroupId;
         this.date = date;
         this.dishList = dishList;
         this.mealType = mealType;
+    }
+    public Meal() {
+        this.dishList = new ArrayList<>();
     }
 
     public int getId() {
@@ -24,14 +25,6 @@ public class Meal {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserGroupId() {
-        return userGroupId;
-    }
-
-    public void setUserGroupId(int userGroupId) {
-        this.userGroupId = userGroupId;
     }
 
     public LocalDate getDate() {

@@ -5,12 +5,15 @@ import java.util.ArrayList;
 public class Fridge {
     private int id;
     private int userGroupId;
-    private ArrayList<Food> foodList;
+    private ArrayList<Ingredient> ingredients;
 
-    public Fridge(int id, int userGroupId, ArrayList<Food> foodList) {
+    public Fridge(int id, int userGroupId, ArrayList<Ingredient> ingredientArrayList) {
         this.id = id;
         this.userGroupId = userGroupId;
-        this.foodList = foodList;
+        this.ingredients = ingredientArrayList;
+    }
+    public Fridge() {
+        this.ingredients = new ArrayList<>();
     }
 
     public int getId() {
@@ -29,11 +32,11 @@ public class Fridge {
         this.userGroupId = userGroupId;
     }
 
-    public ArrayList<Food> getFoodList() {
-        return foodList;
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setFoodList(ArrayList<Food> foodList) {
-        this.foodList = foodList;
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
