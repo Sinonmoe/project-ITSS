@@ -15,8 +15,9 @@ import java.sql.SQLException;
 public abstract class BaseService {
     protected String url = "jdbc:mysql://localhost:3306/Convenience"; // Tên database bạn tạo
     protected String username = "root"; // Tên người dùng MySQL
-    protected String password = "Hoang!3070$"; // Mật khẩu MySQL
+    protected String password = "tung1001"; // Mật khẩu MySQL
     protected Connection connection = null;
+
     protected Connection getConnection() {
         try {
             // Bắt buộc nạp driver nếu không dùng build tool như Maven hoặc chạy từ IDE
@@ -33,6 +34,7 @@ public abstract class BaseService {
         }
         return null;
     }
+
     protected void closeConnection() {
         if (connection != null) {
             try {
