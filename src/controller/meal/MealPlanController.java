@@ -9,9 +9,12 @@ import java.util.ResourceBundle;
 
 public class MealPlanController extends BaseController {
 
-    @FXML private Button byDateButton;
-    @FXML private Button byWeekButton;
-    @FXML private Button addMealButton;
+    @FXML
+    private Button byDateButton;
+    @FXML
+    private Button byWeekButton;
+    @FXML
+    private Button addMealButton;
 
     @Override
     public String getFxmlPath() {
@@ -23,15 +26,18 @@ public class MealPlanController extends BaseController {
         // Khởi tạo nếu cần
     }
 
-    @FXML private void onPlanByDate(ActionEvent e) {
+    @FXML
+    private void onPlanByDate(ActionEvent e) {
         // Xử lý lên kế hoạch theo ngày
     }
 
-    @FXML private void onPlanByWeek(ActionEvent e) {
+    @FXML
+    private void onPlanByWeek(ActionEvent e) {
         // Xử lý lên kế hoạch theo tuần
     }
 
-    @FXML private void onAddMeal(ActionEvent e) {
+    @FXML
+    private void onAddMeal(ActionEvent e) {
         // Xử lý thêm bữa ăn
     }
 
