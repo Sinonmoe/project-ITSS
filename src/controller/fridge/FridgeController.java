@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 public class FridgeController extends BaseController implements Initializable {
 
     @FXML
+    private Button expireCheck;
+    @FXML
     private TableView<Ingredient> tableView;
 
     @FXML

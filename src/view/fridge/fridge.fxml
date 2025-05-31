@@ -20,7 +20,7 @@
                   <Font size="16.0" />
                </font>
             </TextArea>
-            <Button fx:id="byDateButton" cache="true" mnemonicParsing="false" onAction="#getexpiredIngre" prefHeight="25.0" prefWidth="127.0" text="thực phẩm hết hạn">
+            <Button fx:id="expireCheck" cache="true" mnemonicParsing="false" onAction="#getexpiredIngre" prefHeight="25.0" prefWidth="127.0" text="thực phẩm hết hạn">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
