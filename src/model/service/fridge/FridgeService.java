@@ -31,20 +31,49 @@ public class FridgeService extends BaseService {
         }
     }
 
+    // public List<Ingredient> getAllIngredients(int fridgeId) {
+    // List<Ingredient> list = new ArrayList<>();
+    // try {
+    // String sql = "SELECT * FROM ingredient WHERE fridgeId = ?";
+    // PreparedStatement stmt = connection.prepareStatement(sql);
+    // stmt.setInt(1, fridgeId);
+    // ResultSet rs = stmt.executeQuery();
+    // while (rs.next()) {
+    // Ingredient ing = new Ingredient(
+    // rs.getInt("ingredientId"),
+    // rs.getString("ingredientName"),
+    // rs.getDouble("quantity"),
+    // Unit.valueOf(rs.getString("unitType")),
+    // rs.getDate("expirationDate").toLocalDate());
+    // list.add(ing);
+    // }
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // } finally {
+    // closeConnection();
+    // }
+    // return list;
+    // }
     public List<Ingredient> getAllIngredients(int fridgeId) {
         List<Ingredient> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM ingredient WHERE fridgeId = ?";
+            String sql = """
+                        SELECT ingredientName, unitType, SUM(quantity) as totalQuantity
+                        FROM ingredient
+                        WHERE fridgeId = ?
+                        GROUP BY ingredientName, unitType
+                    """;
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, fridgeId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Ingredient ing = new Ingredient(
-                        rs.getInt("ingredientId"),
+                        -1, // ID không cần thiết trong trường hợp này
                         rs.getString("ingredientName"),
-                        rs.getDouble("quantity"),
+                        rs.getDouble("totalQuantity"),
                         Unit.valueOf(rs.getString("unitType")),
-                        rs.getDate("expirationDate").toLocalDate());
+                        null // bỏ expirationDate
+                );
                 list.add(ing);
             }
         } catch (Exception e) {

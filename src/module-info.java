@@ -14,5 +14,6 @@ module itss.convenience {
     requires mysql.connector.j;
 
     opens itss.convenience to javafx.fxml;
+
     exports itss.convenience;
 }
