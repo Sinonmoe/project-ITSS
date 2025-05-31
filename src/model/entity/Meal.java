@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 public class Meal {
     private int id;
-    private LocalDate date;
+    private int dateIndex;
     private ArrayList<Dish> dishList;
     private MealType mealType;
 
-    public Meal(int id, LocalDate date, ArrayList<Dish> dishList, MealType mealType) {
+    public Meal(int id, int dateIndex, ArrayList<Dish> dishList, MealType mealType) {
         this.id = id;
-        this.date = date;
+        this.dateIndex = dateIndex;
         this.dishList = dishList;
         this.mealType = mealType;
     }
@@ -27,12 +27,11 @@ public class Meal {
         this.id = id;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public int getDateIndex() {
+        return dateIndex;
     }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateIndex(int dateIndex) {
+        this.dateIndex = dateIndex;
     }
 
     public ArrayList<Dish> getDishList() {

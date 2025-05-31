@@ -1,9 +1,9 @@
 package model.entity;
 
 public enum MealType {
-    breakfast("Sáng"),
-    lunch("Trưa"),
-    dinner("Tối");
+    breakfast("breakfast"),
+    lunch("lunch"),
+    dinner("dinner"),;
 
     private final String displayName;
 

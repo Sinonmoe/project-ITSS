@@ -1,10 +1,13 @@
 package model.entity;
 
+import java.time.LocalDate;
+
 public class Ingredient {
     private int id;
     private  String name;
     private double quantity;
     private Unit unit;
+    private LocalDate expirationDate;
 
     public Ingredient(){
     }
@@ -13,6 +16,13 @@ public class Ingredient {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
+    }
+    public Ingredient(int id, String name, double quantity, Unit unit, LocalDate expirationDate) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.expirationDate = expirationDate;
     }
     public int getId() {
         return id;
@@ -37,6 +47,12 @@ public class Ingredient {
     }
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     @Override
